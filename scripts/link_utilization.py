@@ -10,7 +10,7 @@ import std_msgs.msg
 
 
 def getparameters():
-	f = Popen(cmd,shell=True,stdout=PIPE)
+	f = Popen(cmd,shell=True,stdout=PIPE,stderr=PIPE)
 	cmd_output = f.stdout.read()
 	ans = cmd_output.split()
 	if (len(ans) < 1): return 0
@@ -18,14 +18,14 @@ def getparameters():
 	msg.total_tx_bytes = int(ans[9])
 	msg.total_rx_packets = int(ans[2])
 	msg.total_rx_bytes = int(ans[1])
-	f = Popen(cmd_netstat_tcp,shell=True,stdout=PIPE)
+	f = Popen(cmd_netstat_tcp,shell=True,stdout=PIPE,stderr=PIPE)
 	cmd_output = f.stdout.read()
 	ans = cmd_output.split()
 	insegs = len(ans) - 6
 	outsegs = len(ans) - 5
 	msg.tcp_rx_segments = int(ans[insegs])
 	msg.tcp_tx_segments = int(ans[outsegs])
-	f = Popen(cmd_netstat_udp,shell=True,stdout=PIPE)
+	f = Popen(cmd_netstat_udp,shell=True,stdout=PIPE,stderr=PIPE)
 	cmd_output = f.stdout.read()
 	ans = cmd_output.split()
 	rxdatagrams = len(ans)/2 + 1
