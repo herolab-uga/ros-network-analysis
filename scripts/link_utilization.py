@@ -1,39 +1,38 @@
 #!/usr/bin/env python
-#Deascription: ROS Node for network bandwidth monitoring/link utilization metrics in a given network: reports transmit and receive bytes, packets and rates
+#Deascription: ROS Node to measure and monitor network traffic (detailed link utilization metrics) from a given interface connected to a wireless network. It reports total transmit and receive bytes, packets and data transfer rates (overall throughput), in addition to tcp/udp segments/datagrams.
 #Author: Ramviyas Parasuraman ramviyas@purdue.edu
 #License: MIT
 
-import os
 import rospy
-from std_msgs.msg import String
+from subprocess import Popen, PIPE
 from network_analysis.msg import LinkUtilization
-from time import sleep
 import std_msgs.msg
 
 
 def getparameters():
-	f = os.popen(cmd)
-	cmd_output = f.read()
+	f = Popen(cmd,shell=True,stdout=PIPE)
+	cmd_output = f.stdout.read()
 	ans = cmd_output.split()
-
+	if (len(ans) < 1): return 0
 	msg.total_tx_packets = int(ans[10])
 	msg.total_tx_bytes = int(ans[9])
 	msg.total_rx_packets = int(ans[2])
 	msg.total_rx_bytes = int(ans[1])
-	f = os.popen(cmd_netstat_tcp)
-	cmd_output = f.read()
+	f = Popen(cmd_netstat_tcp,shell=True,stdout=PIPE)
+	cmd_output = f.stdout.read()
 	ans = cmd_output.split()
 	insegs = len(ans) - 6
 	outsegs = len(ans) - 5
 	msg.tcp_rx_segments = int(ans[insegs])
 	msg.tcp_tx_segments = int(ans[outsegs])
-	f = os.popen(cmd_netstat_udp)
-	cmd_output = f.read()
+	f = Popen(cmd_netstat_udp,shell=True,stdout=PIPE)
+	cmd_output = f.stdout.read()
 	ans = cmd_output.split()
 	rxdatagrams = len(ans)/2 + 1
 	txdatagrams = len(ans)/2 + 4
 	msg.udp_rx_datagrams = int(ans[rxdatagrams])
 	msg.udp_tx_datagrams = int(ans[txdatagrams])
+	return 1
 
 def linkutilization_publisher():
 	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan0')
@@ -46,9 +45,9 @@ def linkutilization_publisher():
 
 	msg = LinkUtilization();
 	msg.iface = interfacename
-	rate = rospy.Rate(1) # 10hz
+	rate = rospy.Rate(1) # 1hz
 	h = std_msgs.msg.Header()
-	getparameters()
+	fout = getparameters()
 
 	while not rospy.is_shutdown():
 		h.stamp = rospy.Time.now()
@@ -61,16 +60,18 @@ def linkutilization_publisher():
 		previous_tcp_tx_segments = msg.tcp_tx_segments
 		previous_udp_rx_datagrams = msg.udp_rx_datagrams
 		previous_udp_tx_datagrams  = msg.udp_tx_datagrams
-		sleep(1)
-		getparameters()	
+		rospy.sleep(1)
+		fout = getparameters()	
+		if (fout == 0):
+			print "The interface %s does not exist or is disconnected",interfacename
+			continue
 		msg.total_tx_mbps = (8 * (msg.total_tx_bytes - previous_total_tx_bytes) / float(1000*1000))
 		msg.total_rx_mbps = (8 * (msg.total_rx_bytes - previous_total_rx_bytes) / float(1000*1000))
 		msg.tcp_tx_segmentrate = msg.tcp_tx_segments - previous_tcp_tx_segments
 		msg.tcp_rx_segmentrate = msg.tcp_rx_segments - previous_tcp_rx_segments
 		msg.udp_tx_datagramrate = msg.udp_tx_datagrams - previous_udp_tx_datagrams
 		msg.udp_rx_datagramrate = msg.udp_rx_datagrams - previous_udp_rx_datagrams
-		print msg.total_rx_mbps
-		rospy.loginfo(msg)
+		rospy.loginfo("Total throughput on interface %s is Transmit %f Mbps and Receive %f Mbps", interfacename, msg.total_tx_mbps,msg.total_rx_mbps)
 		pub.publish(msg)
 		rate.sleep()
        	
