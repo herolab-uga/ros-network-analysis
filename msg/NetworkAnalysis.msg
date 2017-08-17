@@ -1,5 +1,5 @@
 Header header
 NetworkDelay[] delay
-NetworkError[] errors
+NetworkErrors[] errors
 WirelessLink[] quality
 LinkUtilization[] utilization

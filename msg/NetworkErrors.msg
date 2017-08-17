@@ -1,5 +1,7 @@
 Header header
 
+string iface
+
 #segment errors at (tcp) protocol level
 int64 retransmits
 int64 badsegments
