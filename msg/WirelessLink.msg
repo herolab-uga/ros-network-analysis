@@ -12,8 +12,11 @@ bool status
 # Received Signal Strength (RSS) in dBm
 int32 rssi
 
-# Link Quality of the wireless link in percentage
-int32 lqi
+# Received Signal Strength (RSS) in dBm
+int32 txpower
+
+# Link Quality of the wireless link in percentage (scale of 1 to 100)
+float32 lqi
 
 # Noise floor of the wireless link in dBm (only limited NICs provide this correctly)
 int32 noise
