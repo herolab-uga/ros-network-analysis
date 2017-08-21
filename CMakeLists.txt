@@ -22,6 +22,7 @@ find_package(Boost REQUIRED COMPONENTS system)
    NetworkErrors.msg
    NetworkDelay.msg
    NetworkAnalysis.msg
+   WirelessLinkVector.msg
  )
 
 ## Generate actions in the 'action' folder

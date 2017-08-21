@@ -21,7 +21,10 @@ int main(int argc, char* argv[])
 
 		struct timeval start, end;
 		double mtime, seconds, useconds;
-		double timeout=2.0; // timeout to wait for action (in seconds)
+		double timeout=2.0;
+		int updaterate=1;
+		n.param("timeout_network_delay", timeout, 2.0); // timeout to wait for action (in seconds)
+		n.param("update_rate_network_delay", updaterate, 1); // update freqency to publish in the topic
 
 		// Publish the delay values in the /network_analysis/network_delay topic
 		ros::Publisher pub = n.advertise<network_analysis::NetworkDelay>("network_analysis/network_delay", 10);
@@ -33,7 +36,7 @@ int main(int argc, char* argv[])
 		network_analysis::PingGoal goal;
 		goal.inp = true;
 
-		ros::Rate loop_rate(1);
+		ros::Rate loop_rate(updaterate);
 		//ros::Time last_time = ros::Time::now();
 
 		msg.header.stamp = ros::Time::now();

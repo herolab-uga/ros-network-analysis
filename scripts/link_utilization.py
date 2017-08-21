@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-#Description: ROS Node to measure and monitor network traffic (detailed link utilization metrics) from a given interface connected to a wireless network. It reports total transmit and receive bytes, packets and data transfer rates (overall throughput), in addition to tcp/udp segments/datagrams.
-#Author: Ramviyas Parasuraman ramviyas@purdue.edu
-#License: MIT
+# Description: ROS Node to measure and monitor network traffic (detailed link utilization metrics) from a given interface connected to a wireless network. It reports total transmit and receive bytes, packets and data transfer rates (overall throughput), in addition to tcp/udp segments/datagrams.
+# Author: Ramviyas Parasuraman ramviyas@purdue.edu
+# License: MIT
 
 import rospy
 from subprocess import Popen, PIPE
@@ -35,7 +35,8 @@ def getparameters():
 	return 1
 
 def linkutilization_publisher():
-	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan0')
+	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan0') # The Wi-Fi interface id
+	updaterate = rospy.get_param('update_rate_link_utilization', 1) # Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation.
 	global cmd,cmd_netstat_tcp,cmd_netstat_udp,msg
 	cmd ="cat /proc/net/dev | grep " + interfacename
 	cmd_netstat_tcp = "cat /proc/net/snmp | grep Tcp:"
@@ -45,7 +46,7 @@ def linkutilization_publisher():
 
 	msg = LinkUtilization();
 	msg.iface = interfacename
-	rate = rospy.Rate(1) # 1hz
+	rate = rospy.Rate(updaterate)
 	h = std_msgs.msg.Header()
 	fout = getparameters()
 
@@ -60,7 +61,7 @@ def linkutilization_publisher():
 		previous_tcp_tx_segments = msg.tcp_tx_segments
 		previous_udp_rx_datagrams = msg.udp_rx_datagrams
 		previous_udp_tx_datagrams  = msg.udp_tx_datagrams
-		rospy.sleep(1)
+		rospy.sleep(1/updaterate)
 		fout = getparameters()	
 		if (fout == 0):
 			print "The interface %s does not exist or is disconnected",interfacename
