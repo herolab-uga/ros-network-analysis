@@ -26,7 +26,7 @@ def get_rssi_from_os(interface_name):
 		msg.rssi = float(ans[3])
 		msg.lqi = float(ans[2])
 		msg.noise = float(ans[4])
-		msg.id = interface_name
+		msg.iface = interface_name
 		msg.status = True
 
 	except:
