@@ -63,7 +63,7 @@ include_directories(
 
 add_executable(pingactionserver src/server_network_delay.cpp)
 target_link_libraries(pingactionserver ${catkin_LIBRARIES})
-add_dependencies(pingactionserver network_analysis_EXPORTED_TARGETS)
+add_dependencies(pingactionserver network_analysis_gencpp network_analysis_EXPORTED_TARGETS)
 
 
 add_executable(network_delay src/network_delay.cpp)
