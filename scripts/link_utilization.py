@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Description: ROS Node to measure and monitor network traffic (detailed link utilization metrics) from a given interface connected to a wireless network. It reports total transmit and receive bytes, packets and data transfer rates (overall throughput), in addition to tcp/udp segments/datagrams.
-# Author: Ramviyas Parasuraman ramviyas@purdue.edu
+# Author: Ramviyas Parasuraman ramviyas@uga.edu
 # License: MIT
 
 import rospy
