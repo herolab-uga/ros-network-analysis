@@ -39,6 +39,8 @@ if __name__ == '__main__':
 	pub_rssi = rospy.Publisher('/networkanalysis/quality', WirelessLink, queue_size=10)
 	rospy.init_node('rssi_publisher', anonymous=True)
 	rate = rospy.Rate(5)
+	rospy.loginfo("Initialized measurement of wireless quality of %s interface",interfacename)
+
 
 	h = std_msgs.msg.Header()
 	while not rospy.is_shutdown():
