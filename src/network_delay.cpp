@@ -1,5 +1,5 @@
 // Description: This ROS node calculates delay in the network without using Ping/ICMP echo requests. It uses ROS action calls instead, thus measuring the round trip time (2xlatency) at the applicaiton level layer (with TCP connection).
-// Author: Ramviyas Parasuraman ramviyas@purdue.edu
+// Author: Ramviyas Parasuraman ramviyas@uga.edu
 // License: MIT
 
 
