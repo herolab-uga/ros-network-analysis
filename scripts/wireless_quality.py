@@ -44,11 +44,11 @@ if __name__ == '__main__':
 	while not rospy.is_shutdown():
 
 		h.stamp = rospy.Time.now()
-		msg = rssi_robot()
+		msg = WirelessLink()
  		msg.header = h
 		get_rssi_from_os(interfacename)		
-	  pub_rssi.publish(msg)
-    rate.sleep()
+	  	pub_rssi.publish(msg)
+    		rate.sleep()
 
 
     except rospy.ROSInterruptException:
