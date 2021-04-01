@@ -1,6 +1,7 @@
 // Description: This ROS node is the server node which provides action requested by the network_delay node. This helps in calculating the application-level delay in the (wireless) network.
-// Author: Ramviyas Parasuraman ramviyas@purdue.edu
+// Author: Ramviyas Parasuraman ramviyas@uga.edu
 // License: MIT
+// Target executable file name - pingactionserver
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
