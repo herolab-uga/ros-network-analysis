@@ -55,7 +55,7 @@ def network_errors_publisher():
 			msg.rx_dropped = int(f.stdout.read())
 			rospy.loginfo("%s IP RX_DROPPED %d", interfacename, msg.rx_dropped )
 		except:
-			rospy.loginfo("The specified interface %s does not exist or is disconnected. Reporting only global network errors (not interface specific).",interfacename)
+			rospy.loginfo("For ethtool, the specified interface %s does not exist or is disconnected. Reporting only global network errors (not interface specific).",interfacename)
 			pub.publish(msg)
 			rate.sleep()
 			continue
