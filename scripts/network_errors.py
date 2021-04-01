@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Description: ROS Node to report the (cumulative) error metrics of a given network. It monitors and reports three type of errors: ip - tcp/udp related (all interfaces); connection - transmit and receive errors (specific interface); interface (nic) - tx and rx errors (specific interface)
 # Dependencies: netstat, ethtool (sudo apt-get install net-tools ethtool)
-# Author: Ramviyas Parasuraman ramviyas@purdue.edu
+# Author: Ramviyas Parasuraman ramviyas@uga.edu
 
 from subprocess import Popen, PIPE
 import rospy
@@ -9,7 +9,7 @@ from network_analysis.msg import NetworkErrors
 import std_msgs.msg
 
 def network_errors_publisher():
-	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan1')
+	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan0')
 	updaterate = rospy.get_param('update_rate_network_errors', 1) # Update frequency in Hz.
 	pub = rospy.Publisher('/network_analysis/network_errors', NetworkErrors, queue_size=10)
 	rospy.init_node('NetworkErrors_publisher', anonymous=True)
@@ -19,9 +19,9 @@ def network_errors_publisher():
 	msg.iface = interfacename
 
 	
-	cmd1 ="netstat -s | grep retransmited | awk '{print $1}'"
+	cmd1 ="netstat -s | grep retransmitted | awk '{print $1}'"
 	cmd2 ="netstat -s | grep 'bad segments' | awk '{print $1}'"
-	cmd3 ="netstat -s | grep errors | awk '{print $1}'"
+	cmd3 ="netstat -s | grep 'receive errors' | awk '{print $1}'"
 	cmd4 ="ethtool -S " + interfacename +" | grep rx_dropped | awk '{print $2}'"
 	cmd5 ="ethtool -S " + interfacename +" | grep tx_retries | awk '{print $2}'"
 	cmd6 ="cat /sys/class/net/" + interfacename +"/statistics/tx_errors"
