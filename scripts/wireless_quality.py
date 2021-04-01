@@ -30,7 +30,7 @@ def get_rssi_from_os(interface_name):
 		msg.status = True
 
 	except:
-    rospy.loginfo("The specified interface %s does not exist or is disconnected. Please check",interfacename)
+    		rospy.loginfo("The specified interface %s does not exist or is disconnected. Please check",interfacename)
 		pass
 
 if __name__ == '__main__':
