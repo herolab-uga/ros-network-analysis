@@ -22,5 +22,5 @@
     <param name="update_rate_network_errors" value="$(arg other_sampling_rate)" />    
     <remap from="/network_analysis/network_errors" to="/node1/network_analysis/network_errors" />    
   </node>
-  <node pkg="network_analysis" type="pingactionserver" name="pingactionserver" output="screen">
+  <node pkg="network_analysis" type="pingactionserver" name="pingactionserver" output="screen" />
 </launch>
