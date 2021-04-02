@@ -35,7 +35,7 @@ def get_rssi_from_os(interface_name):
 
 if __name__ == '__main__':
     try:
-	interfacename = rospy.get_param('Interface_id', 'wlan0')	
+	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan0')	
 	pub_rssi = rospy.Publisher('/networkanalysis/quality', WirelessLink, queue_size=10)
 	rospy.init_node('rssi_publisher', anonymous=True)
 	rate = rospy.Rate(5)
