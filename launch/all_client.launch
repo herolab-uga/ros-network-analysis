@@ -1,7 +1,7 @@
 <launch>
   <arg name="interface_name" default="wlan0"/>
-  <arg name="rssi_sampling_rate" default=1 />
-  <arg name="other_sampling_rate" default=1 />
+  <arg name="rssi_sampling_rate" default="1" />
+  <arg name="other_sampling_rate" default="1" />
   <node pkg="network_analysis" type="wireless_quality.py" name="wireless_quality" output="screen">
     <param name="INTERFACE_NAME" value="$(arg interface_name)"/>
     <param name="update_rate_wireless_quality" value="$(arg rssi_sampling_rate)"/>
@@ -14,7 +14,7 @@
   </node>
   <node pkg="network_analysis" type="network_delay" name="network_delay" output="screen">
     <param name="update_rate_network_delay" value="$(arg other_sampling_rate)" />    
-    <param name="timeout_network_delay" value=2.0 />    
+    <param name="timeout_network_delay" value="2.0" />    
     <remap from="/network_analysis/network_delay" to="/node1/network_analysis/network_delay" />
   </node>
   <node pkg="network_analysis" type="network_errors.py" name="network_errors" output="screen">
@@ -22,4 +22,5 @@
     <param name="update_rate_network_errors" value="$(arg other_sampling_rate)" />    
     <remap from="/network_analysis/network_errors" to="/node1/network_analysis/network_errors" />    
   </node>
+  <node pkg="network_analysis" type="pingactionserver" name="pingactionserver" output="screen">
 </launch>
