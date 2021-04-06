@@ -38,7 +38,7 @@ if __name__ == '__main__':
 	interfacename = rospy.get_param('~INTERFACE_NAME', 'wlan0')
 	update_rate = rospy.get_param('~update_rate_wireless_quality', 10)	
 
-	pub_rssi = rospy.Publisher('/network_analysis/wireless_quality', WirelessLink, queue_size=10)
+	pub_rssi = rospy.Publisher('network_analysis/wireless_quality', WirelessLink, queue_size=10)
 	rospy.init_node('rssi_publisher', anonymous=True)
 	rate = rospy.Rate(update_rate)
 	rospy.loginfo("Initialized measurement of wireless quality of %s interface",interfacename)
