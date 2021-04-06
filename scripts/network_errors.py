@@ -9,10 +9,10 @@ from network_analysis.msg import NetworkErrors
 import std_msgs.msg
 
 def network_errors_publisher():
+	rospy.init_node('NetworkErrors_publisher', anonymous=True)
 	interfacename = rospy.get_param('~INTERFACE_NAME', 'wlan0')
 	updaterate = rospy.get_param('~update_rate_network_errors', 1) # Update frequency in Hz.
 	pub = rospy.Publisher('network_analysis/network_errors', NetworkErrors, queue_size=10)
-	rospy.init_node('NetworkErrors_publisher', anonymous=True)
 	msg = NetworkErrors();
 	rate = rospy.Rate(updaterate) # 10hz
 	h = std_msgs.msg.Header()
