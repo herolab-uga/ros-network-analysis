@@ -35,6 +35,7 @@ def getparameters():
 	return 1
 
 def linkutilization_publisher():
+	rospy.init_node('link_utilization_publisher', anonymous=True)
 	interfacename = rospy.get_param('~INTERFACE_NAME', 'wlan0') # The Wi-Fi interface id
 	updaterate = rospy.get_param('~update_rate_link_utilization', 1) # Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation.
 	global cmd,cmd_netstat_tcp,cmd_netstat_udp,msg
@@ -42,7 +43,6 @@ def linkutilization_publisher():
 	cmd_netstat_tcp = "cat /proc/net/snmp | grep Tcp:"
 	cmd_netstat_udp = "cat /proc/net/snmp | grep Udp:"
 	pub = rospy.Publisher('network_analysis/link_utilization', LinkUtilization, queue_size=10)
-	rospy.init_node('link_utilization_publisher', anonymous=True)
 
 	msg = LinkUtilization();
 	msg.iface = interfacename
