@@ -41,7 +41,7 @@ def linkutilization_publisher():
 	cmd ="cat /proc/net/dev | grep " + interfacename
 	cmd_netstat_tcp = "cat /proc/net/snmp | grep Tcp:"
 	cmd_netstat_udp = "cat /proc/net/snmp | grep Udp:"
-	pub = rospy.Publisher('/network_analysis/link_utilization', LinkUtilization, queue_size=10)
+	pub = rospy.Publisher('network_analysis/link_utilization', LinkUtilization, queue_size=10)
 	rospy.init_node('link_utilization_publisher', anonymous=True)
 
 	msg = LinkUtilization();
