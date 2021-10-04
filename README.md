@@ -18,11 +18,11 @@ To use these packages you will have to install this package into your ROS worksp
 ## Network Delay 
 This _network_delay_ ROS node records the delay in milliseconds (ms). It records the application-level network rount trip time latency, it also records if the network is alive (connected) or not. If the network is dead or temporarily unavailable the delay value will be -1 ms. Use below command to run this node.
 
-# on server side
+on server side
 ```
   rosrun network_analysis pingactionserver
 ```
-# on client side
+on client side
 
 ```
   rosrun network_analysis network_delay
@@ -119,8 +119,14 @@ Use the provided ROS launch files (in XML format).
 he "client.launch" should be run at the client side where the performance is measured. For instance, this would be run on a mobile robot. 
 The "server.launch" should be run at a remote station to which the client is communitating its data to. For instance, this would be a command station computer from where a robot is controlled.
 
+on server side
 ```
-  roslaunch network_analysis
+  roslaunch network_analysis server.launch
+```
+on client side
+
+```
+  roslaunch network_analysis client.launch
 ```
 
 
