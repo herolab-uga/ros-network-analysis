@@ -99,3 +99,24 @@ The "server.launch" should be run at a remote station to which the client is com
 ```
 
 
+
+## Core contributors
+
+* **Pranav Pandey** - PhD student
+
+* **Dr.Ramviyas Parasuraman** - Principal Investigator
+
+
+## Heterogeneous Robotics (HeRoLab)
+
+This project is a part of a Learning Technology Grant (LTG) project at the Heterogeneous Robotics Research Lab (HeRoLab) of the University of Georgia.
+
+Please contact hero at uga . edu for any queries
+
+http://hero.uga.edu/
+
+<p align="center">
+<img src="http://hero.uga.edu/wp-content/uploads/2021/04/herolab_newlogo_whitebg.png" width="300">
+</p>
+
+
