@@ -16,9 +16,26 @@ To use these packages you will have to install this package into your ROS worksp
 #Usage Instructions
 
 ## Network Delay 
-Apart from network delay node, other two packages need two ROS nodes, One as listener and another as speaker. There are four packages linkUtiliaztion, NetworkErrors, wireless_quality and network_delay. Below are the commands to use them individually.
+This node records the delay in milliseconds (ms). It uses interface name as a parameter and records the delay, it also records if the network is alive or not. If the network is dead or temporarily unavailable the delay will be -1. Use below command to run this node .
+
+# on server side
+```
+  rosrun network_analysis pingactionserver
+```
+# on client side
+
+```
+  rosrun network_analysis network_delay
+```
+This node pings the client everysecond and wait for 2 seconds before timeout. If the network is alive the network status will be 1 otherwise 0.
 
 ## Network throughput
+This node records the throughput of the network in Mbps. It uses the interface name as a parameter ( by default it is wlan0) and records the total transmitted and recieved data packets and bytes from tcp and udp. It uses /proc/net/dev file to look for the interface name and fetch the required data from /proc/net/snmp file for each tcp and udp connection. It will print the message if the interface name does not exist or disconnected. You can use the below command to run this node.
+
+```
+  rosrun network_analysis link_utilization.py
+```
+This command will print "Total throughput on interface $interface_name is Transmit x Mbps and Receive y Mbps" everysecond.
 
 ## Network Quality
 
