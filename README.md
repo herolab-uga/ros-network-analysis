@@ -27,7 +27,7 @@ on client side
 ```
   rosrun network_analysis network_delay
 ```
-This node pings the client everysecond and wait for 2 seconds before timeout. If the network is alive the network status will be 1 otherwise 0.
+This node pings the client everysecond and wait for 2 seconds before timeout. If the network is alive the network status will be 1 otherwise 0. Running this node will print "ROS Ping Action finished: SUCCEEDED" if the network is alive otherwise it will print "Action did not finish before the timeout. May be a network problem or may be the ping action server node stopped. See network_delay.alive history for more diagnosis". In the rosbag it will record network delay along with interface name, alive status, timestamp, header_seq and frame_id.
 
 ### ROS Topics
 The node publishes measurements in the ROS topic: "/network_analysis/network_delay" by default
