@@ -106,10 +106,19 @@ There are two ROS parameters associated with this node.
 
 
 ## Network Quality
+This node records the RSSI value of the network in dBm. 
 
+```
+  rosrun network_analysis wireless_quality.py
+```
 
 
 ## Network Errors
+This node records the network error metrics.
+
+```
+  rosrun network_analysis network_errors.py
+```
 
 
 
