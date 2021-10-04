@@ -6,7 +6,7 @@ To use these packages you will have to install the package into your ros package
   
   cd ~/catkin_ws
   cd src
-  git clone 
+  git clone https://github.com/herolab-uga/ros-network-analysis.git
   cd ../..
   catkin_make
   catkin_make install
