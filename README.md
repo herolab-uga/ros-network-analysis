@@ -34,16 +34,21 @@ The node publishes measurements in the ROS topic: "/network_analysis/network_del
 
 ### ROS Message type
 This ROS node uses the below custom message type (msgs/NetworkDelay.msg) when it publishes information.
+
 _string iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
+
 _float32 delay_ #network delay obtained using the ros service call (application level roung trip time without using ICMP echo request)
+
 _bool alive_ #Flag to check if the link is alive or dead
 
 ### ROS Parameters
 There are two ROS parameters associated with this node. 
+
 "update_rate_network_delay" -> sets the message publishing frequency
+
 "timeout_network_delay" --> sets the timeout in ms when the node should read a connection loss.
 
-## Network throughput
+## Network Throughput
 This _link_utilization_ ROS node records the throughput of the network in Mbps. It records the total transmitted and recieved data packets and data rates in Mbps from tcp and udp. It uses /proc/net/dev file to look for the interface name and fetch the required data from /proc/net/snmp file for each tcp and udp connection. It will print the message if the interface name does not exist or disconnected. You can use the below command to run this node.
 
 ```
@@ -51,28 +56,48 @@ This _link_utilization_ ROS node records the throughput of the network in Mbps. 
 ```
 This command will print "Total throughput on interface $interface_name is Transmit x Mbps and Receive y Mbps" every second.
 
+### ROS Topics
+The node publishes measurements in the ROS topic: "/network_analysis/link_utilization" by default
+
 
 ### ROS Message type
 The delay node uses the below custom message type (msgs/LinkUtilitzation.msg) when publishing information.
+
 _string iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
+
 #TCP related information on link utilization for a given (NIC) interface
+
 _int64 tcp_tx_segments_
+
 _int64 tcp_rx_segments
+
 float64 tcp_tx_segmentrate
+
 float64 tcp_rx_segmentrate_
+
 #UDP related information on link utilization for a given (NIC) interface
+
 _int64 udp_tx_datagrams
+
 int64 udp_rx_datagrams
+
 float64 udp_tx_datagramrate
+
 float64 udp_rx_datagramrate_
+
 #Total (IP: TCP + UDP) link utilization for a given (NIC) interface
+
 _int64 total_tx_packets
+
 int64 total_tx_bytes
+
 int64 total_rx_packets
+
 int64 total_rx_bytes
+
 float64 total_tx_mbps
-float64 total_rx_mbps
-_
+
+float64 total_rx_mbps_
 
 ### ROS Parameters
 There are two ROS parameters associated with this node. 
