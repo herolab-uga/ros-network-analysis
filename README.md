@@ -27,7 +27,7 @@ This node records the delay in milliseconds (ms). It uses interface name as a pa
 ```
   rosrun network_analysis network_delay
 ```
-This node pings the client everysecond and wait for 2 seconds before timeout. If the network is alive the network status will be 1 otherwise 0. Running this node will print "ROS Ping Action finished: SUCCEEDED" if the network is alive otherwise it will print "ROS Ping Action finished: FAILED". In the rosbag it will record network delay along with interface name, alive status, timestamp, header_seq and frame_id.
+This node pings the client everysecond and wait for 2 seconds before timeout. If the network is alive the network status will be 1 otherwise 0. Running this node will print "ROS Ping Action finished: SUCCEEDED" if the network is alive otherwise it will print "Action did not finish before the timeout. May be a network problem or may be the ping action server node stopped. See network_delay.alive history for more diagnosis". In the rosbag it will record network delay along with interface name, alive status, timestamp, header_seq and frame_id.
 
 ## Network throughput
 This node records the throughput of the network in Mbps. It uses the interface name as a parameter ( by default it is wlan0) and records the total transmitted and recieved data packets and bytes from tcp and udp. It uses /proc/net/dev file to look for the interface name and fetch the required data from /proc/net/snmp file for each tcp and udp connection. It will print the coresponding message if the interface name does not exist or disconnected. You can use the below command to run this node.
