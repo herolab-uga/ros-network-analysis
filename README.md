@@ -69,11 +69,11 @@ _string iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
 
 _int64 tcp_tx_segments_
 
-_int64 tcp_rx_segments
+_int64 tcp_rx_segments_
 
-float64 tcp_tx_segmentrate
+_float64 tcp_tx_segmentrate_
 
-float64 tcp_rx_segmentrate_
+_float64 tcp_rx_segmentrate_
 
 #UDP related information on link utilization for a given (NIC) interface
 
@@ -101,7 +101,9 @@ float64 total_rx_mbps_
 
 ### ROS Parameters
 There are two ROS parameters associated with this node. 
+
 "INTERFACE_NAME" --> sets the device id of the network interface. By default it is set to "wlan0"
+
 "update_rate" -> sets the message publishing frequency
 
 
@@ -111,7 +113,10 @@ This node records the RSSI value of the network in dBm. Received Signal Strength
 ```
   rosrun network_analysis wireless_quality.py
 ```
-This command will print "Initialized measurement of wireless quality of _iface_ interface" and starts publishing the RSSI values or it will print "The specified interface _iface_ does not exist or is disconnected. Please check" or any other error message if there is any error. In the rosbag it will record the rssi, lqi and noise data along with the timestamp and other fields mentioned in the ROS message type.
+
+This command will print "Initialized measurement of wireless quality of _iface_ interface" and starts publishing the RSSI values or it will print "The specified interface _iface_ does not exist or is disconnected. Please check" or any other error message if there is any error. 
+
+This node will provide the rssi, lqi and noise data along with the timestamp and other fields mentioned in the ROS message type.
 
 ### ROS Topics
 The node publishes measurements in the ROS topic: "network_analysis/wireless_quality" by default
@@ -144,7 +149,9 @@ int32 _noise_
 
 ### ROS Parameters
 There are two ROS parameters associated with this node. 
+
 "INTERFACE_NAME" --> sets the device id of the network interface. By default it is set to "wlan0"
+
 "update_rate" -> sets the message publishing frequency
 
 ## Network Errors
@@ -153,6 +160,7 @@ This node records the network error metrics. This nodes publish the total numnbe
 ```
   rosrun network_analysis network_errors.py
 ```
+
 This command will print "Launched the network_errors node to monitor the retries, drops, errors in the network link" and starts publishing the data or it will print "For ethtool, the specified interface %s does not exist or is disconnected. Reporting only global network errors (not interface specific)." or any other error message if it is not able to publish it.
 
 ### ROS Topics
@@ -165,45 +173,66 @@ The delay node uses the below custom message type (msgs/NetworkErrors.msg) when 
 string _iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
 
 #segment errors at (tcp) protocol level
+
 int64 _retransmits_
+
 int64 _badsegments_
 
 #errors in udp transmission
+
 int64 _udperrors_
 
 #system level (MAC layer) errors
+
 int64 _tx_retires_
+
 int64 _rx_dropped_
 
 
 #interface level (NIC statistics) errors
+
 int64 _nic_tx_errors_
+
 int64 _nic_rx_errors_
+
 int64 _nic_tx_dropped_
+
 int64 _nic_rx_dropped_
 
 
 ### ROS Parameters
 There are two ROS parameters associated with this node. 
+
 "INTERFACE_NAME" --> sets the device id of the network interface. By default it is set to "wlan0"
+
 "update_rate" -> sets the message publishing frequency
 
 ## Running all nodes together
 
 Use the provided ROS launch files (in XML format). 
+
 The "Client.launch" should be run at the client side where the performance is measured. For instance, this would be run on a mobile robot. 
+
 The "Server.launch" should be run at a remote station to which the client is communitating its data to. For instance, this would be a command station computer from where a robot is controlled.
 
-on server side
-```
-  roslaunch network_analysis Server.launch
-```
-on client side
+
+
+on the client side - if you want to record all the metrics at the client side
 
 ```
   roslaunch network_analysis Client.launch
 ```
 
+on the server side - if you just want to use for recoding delay and all other metrics at the client side only
+```
+  roslaunch network_analysis Server-ping-only.launch
+```
+
+
+on the server side - if you want to record all the metrics at the server side as well
+```
+  roslaunch network_analysis Server.launch
+```
 
 
 ## Core contributors
