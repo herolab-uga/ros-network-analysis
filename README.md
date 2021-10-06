@@ -130,12 +130,12 @@ The "server.launch" should be run at a remote station to which the client is com
 
 on server side
 ```
-  roslaunch network_analysis server.launch
+  roslaunch network_analysis Server.launch
 ```
 on client side
 
 ```
-  roslaunch network_analysis client.launch
+  roslaunch network_analysis Client.launch
 ```
 
 
