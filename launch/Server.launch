@@ -2,7 +2,7 @@
   <arg name="interface_name" default="wlan0"/>
   <arg name="rssi_sampling_rate" default="1" />
   <arg name="other_sampling_rate" default="1" />
-  <arg name="node_name" default="node1" />
+  <arg name="node_name" default="server" />
 
   <node pkg="network_analysis" type="wireless_quality.py" name="wireless_quality" output="screen">
     <param name="INTERFACE_NAME" value="$(arg interface_name)"/>
