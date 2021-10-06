@@ -77,27 +77,27 @@ _float64 tcp_rx_segmentrate_
 
 #UDP related information on link utilization for a given (NIC) interface
 
-_int64 udp_tx_datagrams
+_int64 udp_tx_datagrams_
 
-int64 udp_rx_datagrams
+_int64 udp_rx_datagrams_
 
-float64 udp_tx_datagramrate
+_float64 udp_tx_datagramrate_
 
-float64 udp_rx_datagramrate_
+_float64 udp_rx_datagramrate_
 
 #Total (IP: TCP + UDP) link utilization for a given (NIC) interface
 
-_int64 total_tx_packets
+_int64 total_tx_packets_
 
-int64 total_tx_bytes
+_int64 total_tx_bytes_
 
-int64 total_rx_packets
+_int64 total_rx_packets_
 
-int64 total_rx_bytes
+_int64 total_rx_bytes_
 
-float64 total_tx_mbps
+_float64 total_tx_mbps_
 
-float64 total_rx_mbps_
+_float64 total_rx_mbps_
 
 ### ROS Parameters
 There are two ROS parameters associated with this node. 
@@ -126,25 +126,30 @@ The node publishes measurements in the ROS topic: "network_analysis/wireless_qua
 The delay node uses the below custom message type (msgs/WirelessLink.msg) when publishing information.
 
 #name of the wireless interface (e.g. wlan0, wlan1, etc.)
-string _iface_
+
+_string iface_
 
 #ssid of the access point (e.g. ROBOT0, ROBOT1, CommandStation, etc.)
-string _ssid_
+
+_string ssid_
 
 #Connection status (1 is connected and 0 is disconnected/error0
-bool _status_ 
+
+_bool status_ 
 
 #Received Signal Strength (RSS) in dBm
-int32 _txpower_
 
-#Received Signal Strength (RSS) in dBm
-int32 _rssi_
+_int32 txpower_
+
+_int32 rssi_
 
 #Link Quality of the wireless link in percentage (scale of 1 to 100)
-float32 _lqi_
+
+_float32 lqi_
 
 #Noise floor of the wireless link in dBm (only limited NICs provide this correctly)
-int32 _noise_
+
+_int32 noise_
 
 
 ### ROS Parameters
@@ -170,34 +175,34 @@ The node publishes measurements in the ROS topic: "network_analysis/network_erro
 ### ROS Message type
 The delay node uses the below custom message type (msgs/NetworkErrors.msg) when publishing information.
 
-string _iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
+_string iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
 
 #segment errors at (tcp) protocol level
 
-int64 _retransmits_
+_int64 retransmits_
 
-int64 _badsegments_
+_int64 badsegments_
 
 #errors in udp transmission
 
-int64 _udperrors_
+_int64 udperrors_
 
 #system level (MAC layer) errors
 
-int64 _tx_retires_
+_int64 tx_retires_
 
-int64 _rx_dropped_
+_int64 rx_dropped_
 
 
 #interface level (NIC statistics) errors
 
-int64 _nic_tx_errors_
+_int64 nic_tx_errors_
 
-int64 _nic_rx_errors_
+_int64 nic_rx_errors_
 
-int64 _nic_tx_dropped_
+_int64 nic_tx_dropped_
 
-int64 _nic_rx_dropped_
+_int64 nic_rx_dropped_
 
 
 ### ROS Parameters
