@@ -106,11 +106,12 @@ There are two ROS parameters associated with this node.
 
 
 ## Network Quality
-This node records the RSSI value of the network in dBm. 
+This node records the RSSI value of the network in dBm. Received Signal Strength Indicator (RSSI) is a measurement of the power present in a received wireless signal. This node reads the /proc/net/wireless for the given interface name to publish or record all the signal quality data.
 
 ```
   rosrun network_analysis wireless_quality.py
 ```
+This command will print "Initialized measurement of wireless quality of _iface_ interface" and starts publishing the RSSI values or it will print "The specified interface _iface_ does not exist or is disconnected. Please check" or any other error message if there is any error. In the rosbag it will record the rssi, lqi and noise data along with the timestamp and other fields mentioned in the ROS message type.
 
 ### ROS Topics
 The node publishes measurements in the ROS topic: "network_analysis/wireless_quality" by default
@@ -147,11 +148,12 @@ There are two ROS parameters associated with this node.
 "update_rate" -> sets the message publishing frequency
 
 ## Network Errors
-This node records the network error metrics.
+This node records the network error metrics. This nodes publish the total numnber of data for each retransmitted, retires, etc. This access the netstat for fetching the retransmitted, bad segments and retires and ethtool for fetching the rx_dropped and tx_retires data. This node reads the file /sys/class/net/" + interfacename +"/statistics/tx_errors (or tx_dropped or rx_errors or rx_dropped) to publish these data.
 
 ```
   rosrun network_analysis network_errors.py
 ```
+This command will print "Launched the network_errors node to monitor the retries, drops, errors in the network link" and starts publishing the data or it will print "For ethtool, the specified interface %s does not exist or is disconnected. Reporting only global network errors (not interface specific)." or any other error message if it is not able to publish it.
 
 ### ROS Topics
 The node publishes measurements in the ROS topic: "network_analysis/network_errors" by default
