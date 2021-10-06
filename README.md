@@ -61,7 +61,7 @@ The node publishes measurements in the ROS topic: "/network_analysis/link_utiliz
 
 
 ### ROS Message type
-The delay node uses the below custom message type (msgs/LinkUtilitzation.msg) when publishing information.
+The link utilization node uses the below custom message type (msgs/LinkUtilitzation.msg) when publishing information.
 
 _string iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
 
@@ -102,7 +102,7 @@ float64 total_rx_mbps_
 ### ROS Parameters
 There are two ROS parameters associated with this node. 
 "INTERFACE_NAME" --> sets the device id of the network interface. By default it is set to "wlan0"
-"update_rate_network_delay" -> sets the message publishing frequency
+"update_rate" -> sets the message publishing frequency
 
 
 ## Network Quality
@@ -112,6 +112,39 @@ This node records the RSSI value of the network in dBm.
   rosrun network_analysis wireless_quality.py
 ```
 
+### ROS Topics
+The node publishes measurements in the ROS topic: "network_analysis/wireless_quality" by default
+
+
+### ROS Message type
+The delay node uses the below custom message type (msgs/WirelessLink.msg) when publishing information.
+
+#name of the wireless interface (e.g. wlan0, wlan1, etc.)
+string _iface_
+
+#ssid of the access point (e.g. ROBOT0, ROBOT1, CommandStation, etc.)
+string _ssid_
+
+#Connection status (1 is connected and 0 is disconnected/error0
+bool _status_ 
+
+#Received Signal Strength (RSS) in dBm
+int32 _txpower_
+
+#Received Signal Strength (RSS) in dBm
+int32 _rssi_
+
+#Link Quality of the wireless link in percentage (scale of 1 to 100)
+float32 _lqi_
+
+#Noise floor of the wireless link in dBm (only limited NICs provide this correctly)
+int32 _noise_
+
+
+### ROS Parameters
+There are two ROS parameters associated with this node. 
+"INTERFACE_NAME" --> sets the device id of the network interface. By default it is set to "wlan0"
+"update_rate" -> sets the message publishing frequency
 
 ## Network Errors
 This node records the network error metrics.
@@ -120,13 +153,44 @@ This node records the network error metrics.
   rosrun network_analysis network_errors.py
 ```
 
+### ROS Topics
+The node publishes measurements in the ROS topic: "network_analysis/network_errors" by default
 
+
+### ROS Message type
+The delay node uses the below custom message type (msgs/NetworkErrors.msg) when publishing information.
+
+string _iface_ #name of the wireless interface (e.g. wlan0, wlan1, etc.)
+
+#segment errors at (tcp) protocol level
+int64 _retransmits_
+int64 _badsegments_
+
+#errors in udp transmission
+int64 _udperrors_
+
+#system level (MAC layer) errors
+int64 _tx_retires_
+int64 _rx_dropped_
+
+
+#interface level (NIC statistics) errors
+int64 _nic_tx_errors_
+int64 _nic_rx_errors_
+int64 _nic_tx_dropped_
+int64 _nic_rx_dropped_
+
+
+### ROS Parameters
+There are two ROS parameters associated with this node. 
+"INTERFACE_NAME" --> sets the device id of the network interface. By default it is set to "wlan0"
+"update_rate" -> sets the message publishing frequency
 
 ## Running all nodes together
 
 Use the provided ROS launch files (in XML format). 
-he "client.launch" should be run at the client side where the performance is measured. For instance, this would be run on a mobile robot. 
-The "server.launch" should be run at a remote station to which the client is communitating its data to. For instance, this would be a command station computer from where a robot is controlled.
+The "Client.launch" should be run at the client side where the performance is measured. For instance, this would be run on a mobile robot. 
+The "Server.launch" should be run at a remote station to which the client is communitating its data to. For instance, this would be a command station computer from where a robot is controlled.
 
 on server side
 ```
