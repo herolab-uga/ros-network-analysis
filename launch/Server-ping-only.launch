@@ -1,3 +1,0 @@
-<launch>
-  <node pkg="network_analysis" type="pingactionserver" name="pingactionserver" output="screen" />
-</launch>
