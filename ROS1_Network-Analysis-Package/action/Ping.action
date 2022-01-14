@@ -1,0 +1,10 @@
+# Custom action type for network latency
+
+#goal definition
+bool inp
+---
+#result definition
+bool outp
+---
+#feedback
+bool fb
