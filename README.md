@@ -18,26 +18,17 @@ To use these packages you will have to install this package into your ROS worksp
 ## Network Delay 
 This _network_delay_ ROS node records the delay in milliseconds (ms). It records the application-level network rount trip time latency, it also records if the network is alive (connected) or not. If the network is dead or temporarily unavailable the delay value will be -1 ms. Use below command to run this node.
 
-<<<<<<< HEAD
 on server side
 ```
   rosrun network_analysis pingactionserver
 ```
 on client side
-=======
-### on server side
-```
-  rosrun network_analysis pingactionserver
-```
-### on client side
->>>>>>> 6dd9b5864cc1cbc09c660e9d0ed575d8105aec21
 
 ```
   rosrun network_analysis network_delay
 ```
 This node pings the client everysecond and wait for 2 seconds before timeout. If the network is alive the network status will be 1 otherwise 0. Running this node will print "ROS Ping Action finished: SUCCEEDED" if the network is alive otherwise it will print "Action did not finish before the timeout. May be a network problem or may be the ping action server node stopped. See network_delay.alive history for more diagnosis". In the rosbag it will record network delay along with interface name, alive status, timestamp, header_seq and frame_id.
 
-<<<<<<< HEAD
 ### ROS Topics
 The node publishes measurements in the ROS topic: "/network_analysis/network_delay" by default
 
@@ -59,15 +50,10 @@ There are two ROS parameters associated with this node.
 
 ## Network Throughput
 This _link_utilization_ ROS node records the throughput of the network in Mbps. It records the total transmitted and recieved data packets and data rates in Mbps from tcp and udp. It uses /proc/net/dev file to look for the interface name and fetch the required data from /proc/net/snmp file for each tcp and udp connection. It will print the message if the interface name does not exist or disconnected. You can use the below command to run this node.
-=======
-## Network throughput
-This node records the throughput of the network in Mbps. It uses the interface name as a parameter ( by default it is wlan0) and records the total transmitted and recieved data packets and bytes from tcp and udp. It uses /proc/net/dev file to look for the interface name and fetch the required data from /proc/net/snmp file for each tcp and udp connection. It will print the coresponding message if the interface name does not exist or disconnected. You can use the below command to run this node.
->>>>>>> 6dd9b5864cc1cbc09c660e9d0ed575d8105aec21
 
 ```
   rosrun network_analysis link_utilization.py
 ```
-<<<<<<< HEAD
 This command will print "Total throughput on interface $interface_name is Transmit x Mbps and Receive y Mbps" every second.
 
 ### ROS Topics
@@ -123,19 +109,11 @@ There are two ROS parameters associated with this node.
 
 ## Network Quality
 This node records the RSSI value of the network in dBm. Received Signal Strength Indicator (RSSI) is a measurement of the power present in a received wireless signal. This node reads the /proc/net/wireless for the given interface name to publish or record all the signal quality data.
-=======
-
-This command will print "Total throughput on interface $interface_name is Transmit x Mbps and Receive y Mbps" everysecond. In the ros bag it will store the interface name, total_tx_mbps, total_rx_mbps, total_tx_bytes, total_rx_bytes, total_tx_packets, total_rx_packets along with the individaul tx and rx metrics for tcp and udp.
-
-## Network Quality
-This node records the RSSI value of the network in dBm. 
->>>>>>> 6dd9b5864cc1cbc09c660e9d0ed575d8105aec21
 
 ```
   rosrun network_analysis wireless_quality.py
 ```
 
-<<<<<<< HEAD
 This command will print "Initialized measurement of wireless quality of _iface_ interface" and starts publishing the RSSI values or it will print "The specified interface _iface_ does not exist or is disconnected. Please check" or any other error message if there is any error. 
 
 This node will provide the rssi, lqi and noise data along with the timestamp and other fields mentioned in the ROS message type.
@@ -183,17 +161,11 @@ There are two ROS parameters associated with this node.
 
 ## Network Errors
 This node records the network error metrics. This nodes publish the total numnber of data for each retransmitted, retires, etc. This access the netstat for fetching the retransmitted, bad segments and retires and ethtool for fetching the rx_dropped and tx_retires data. This node reads the file /sys/class/net/" + interfacename +"/statistics/tx_errors (or tx_dropped or rx_errors or rx_dropped) to publish these data.
-=======
-
-## Network Errors
-This node records the network error metrics.
->>>>>>> 6dd9b5864cc1cbc09c660e9d0ed575d8105aec21
 
 ```
   rosrun network_analysis network_errors.py
 ```
 
-<<<<<<< HEAD
 This command will print "Launched the network_errors node to monitor the retries, drops, errors in the network link" and starts publishing the data or it will print "For ethtool, the specified interface %s does not exist or is disconnected. Reporting only global network errors (not interface specific)." or any other error message if it is not able to publish it.
 
 ### ROS Topics
@@ -239,17 +211,8 @@ There are two ROS parameters associated with this node.
 "INTERFACE_NAME" --> sets the device id of the network interface. By default it is set to "wlan0"
 
 "update_rate" -> sets the message publishing frequency
-=======
->>>>>>> 6dd9b5864cc1cbc09c660e9d0ed575d8105aec21
 
 ## Running all nodes together
-To run all the nodes use the below command. Below command will let you record all the above metrics in the rosbag simultaneously.
-
-### on server side
-```
-  roslaunch network_analysis server.launch
-```
-### on client side
 
 Use the provided ROS launch files (in XML format). 
 
@@ -273,11 +236,7 @@ on the server side - if you just want to use for recoding delay and all other me
 
 on the server side - if you want to record all the metrics at the server side as well
 ```
-<<<<<<< HEAD
   roslaunch network_analysis Server.launch
-=======
-  roslaunch network_analysis client.launch
->>>>>>> 6dd9b5864cc1cbc09c660e9d0ed575d8105aec21
 ```
 
 
