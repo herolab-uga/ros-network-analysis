@@ -249,7 +249,7 @@ on the server side - if you want to record all the metrics at the server side as
 
 ## Heterogeneous Robotics (HeRoLab)
 
-This project is a part of a Learning Technology Grant (LTG) project at the Heterogeneous Robotics Research Lab (HeRoLab) of the University of Georgia.
+Heterogeneous Robotics Research Lab (HeRoLab) of the University of Georgia.
 
 Please contact hero at uga . edu for any queries
 
