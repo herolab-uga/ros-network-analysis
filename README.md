@@ -10,6 +10,11 @@ P. Pandey and R. Parasuraman, "Empirical Analysis of Bi-directional Wi-Fi Networ
 https://ieeexplore.ieee.org/abstract/document/9860438 
 
 
+# Dependencies
+
+Dependencies: netstat, ethtool 
+
+(sudo apt-get install net-tools ethtool)
 
 # Installation
 To use these packages you will have to install this package into your ROS workspace. Make sure you install ROS Melodic and set up your ROS workspace as per the instructions at http://wiki.ros.org/melodic/Installation.  Below are the commands which will help you do that, considering you already have a catkin workspace.
