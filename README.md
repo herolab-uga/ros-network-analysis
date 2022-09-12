@@ -3,6 +3,14 @@ This is a ROS package that provide tools to analyze wireless network through fou
 
 There are five ROS nodes in this package - two ROS nodes are for measuring network delay (Server and client side nodes), and three ROS nodes are for measuring quality, throughput, and errors. Each metric has a custom defined ROS message type as discussed below.
 
+# Publication
+If you use this work, please cite our paper:
+P. Pandey and R. Parasuraman, "Empirical Analysis of Bi-directional Wi-Fi Network Performance on Mobile Robots in Indoor Environments," 2022 IEEE 95th Vehicular Technology Conference: (VTC2022-Spring), 2022, pp. 1-7, doi: 10.1109/VTC2022-Spring54318.2022.9860438.
+
+https://ieeexplore.ieee.org/abstract/document/9860438 
+
+
+
 # Installation
 To use these packages you will have to install this package into your ROS workspace. Make sure you install ROS Melodic and set up your ROS workspace as per the instructions at http://wiki.ros.org/melodic/Installation.  Below are the commands which will help you do that, considering you already have a catkin workspace.
 ```
