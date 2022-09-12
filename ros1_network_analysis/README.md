@@ -13,6 +13,13 @@ To use these packages you will have to install this package into your ROS worksp
   catkin_make
   catkin_make install
 ```
+
+# Dependencies
+
+Dependencies: netstat, ethtool 
+
+(sudo apt-get install net-tools ethtool)
+
 # Usage Instructions
 
 ## Network Delay 
