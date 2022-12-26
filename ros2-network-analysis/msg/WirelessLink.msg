@@ -1,4 +1,4 @@
-Header header
+std_msgs/Header header
 
 # name of the wireless interface (e.g. wlan0, wlan1, etc.)
 string iface

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>ros2_network_analysis</name>
+  <version>0.1.0</version>
+  <description>This is a ROS package that provide tools to analyze the wireless network quality and the traffic such as the signal quality, latency, throughput, link utilization, connection rates, error metrics, etc., between two ROS nodes/computers/machines.</description>
+  <maintainer email="ramviyas@uga.edu">Ramviyas Parasuraman</maintainer>
+  <license>MIT</license>
+  <!-- <url type="website">http://wiki.ros.org/network_analysis</url> -->
+  <author email="ramviyas@uga.edu">Ramviyas Parasuraman</author>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+
+  <!-- Action -->
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,6 +1,6 @@
 # Custom message type for analyzing wireless network performance in ROS
 
-Header header
+std_msgs/Header header
 NetworkDelay[] delay
 NetworkErrors[] errors
 WirelessLink[] quality
