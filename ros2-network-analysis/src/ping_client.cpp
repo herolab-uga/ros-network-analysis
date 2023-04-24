@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     rclcpp::init(argc, argv);
     auto node = rclcpp::Node::make_shared("ping_client");
     double timeout = 0;
-    node->get_parameter_or("timeout_network_delay", timeout, 0.0);
+    node->get_parameter_or("timeout_network_delay", timeout, 10.0);
     
     if (timeout <= 0)
     {
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     }
 
     int updateRate = 0;
-    node->get_parameter_or("update_rate_network_delay", updateRate, 0);
+    node->get_parameter_or("update_rate_network_delay", updateRate, 10);
     
     if (updateRate <= 0)
     {
