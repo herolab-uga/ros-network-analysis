@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Description: ROS Node to measure and monitor network traffic (detailed link utilization metrics) from a given interface connected to a wireless network. It reports total transmit and receive bytes, packets and data transfer rates (overall throughput), in addition to tcp/udp segments/datagrams.
 # Author: Ramviyas Parasuraman ramviyas@uga.edu
 # License: MIT
@@ -28,16 +28,17 @@ def getparameters():
 	f = Popen(cmd_netstat_udp,shell=True,stdout=PIPE,stderr=PIPE)
 	cmd_output = f.stdout.read()
 	ans = cmd_output.split()
-	rxdatagrams = len(ans)/2 + 1
-	txdatagrams = len(ans)/2 + 4
+	rxdatagrams = int(len(ans)/2 + 1)
+	txdatagrams = int(len(ans)/2 + 4)
 	msg.udp_rx_datagrams = int(ans[rxdatagrams])
 	msg.udp_tx_datagrams = int(ans[txdatagrams])
 	return 1
 
 def linkutilization_publisher():
 	rospy.init_node('link_utilization_publisher', anonymous=True)
-	interfacename = rospy.get_param('~INTERFACE_NAME', 'wlan0') # The Wi-Fi interface id
-	updaterate = rospy.get_param('~update_rate_link_utilization', 1) # Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation.
+	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan0') # The Wi-Fi interface id
+	print("Interface selected is ",interfacename)
+	updaterate = rospy.get_param('update_rate_link_utilization', 1) # Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation.
 	global cmd,cmd_netstat_tcp,cmd_netstat_udp,msg
 	cmd ="cat /proc/net/dev | grep " + interfacename
 	cmd_netstat_tcp = "cat /proc/net/snmp | grep Tcp:"
@@ -63,7 +64,7 @@ def linkutilization_publisher():
 		rospy.sleep(1/updaterate)
 		fout = getparameters()	
 		if (fout == 0):
-			print "The interface %s does not exist or is disconnected",interfacename
+			print("The interface ", interfacename, " does not exist or is disconnected")
 			continue
 		msg.total_tx_mbps = (8 * (msg.total_tx_bytes - previous_total_tx_bytes) / float(1000*1000))
 		msg.total_rx_mbps = (8 * (msg.total_rx_bytes - previous_total_rx_bytes) / float(1000*1000))
@@ -76,8 +77,8 @@ def linkutilization_publisher():
 		rate.sleep()
        	
 if __name__ == '__main__':
-    try:
+	try:
 		linkutilization_publisher()
 		rospy.spin()
-    except rospy.ROSInterruptException:
-        pass
+	except rospy.ROSInterruptException:
+		pass
