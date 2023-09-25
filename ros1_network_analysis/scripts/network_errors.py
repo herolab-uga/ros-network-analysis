@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Description: ROS Node to report the (cumulative) error metrics of a given network. It monitors and reports three type of errors: ip - tcp/udp related (all interfaces); connection - transmit and receive errors (specific interface); interface (nic) - tx and rx errors (specific interface)
 # Dependencies: netstat, ethtool (sudo apt-get install net-tools ethtool)
 # Author: Ramviyas Parasuraman ramviyas@uga.edu
@@ -10,8 +10,9 @@ import std_msgs.msg
 
 def network_errors_publisher():
 	rospy.init_node('NetworkErrors_publisher', anonymous=True)
-	interfacename = rospy.get_param('~INTERFACE_NAME', 'wlan0')
-	updaterate = rospy.get_param('~update_rate_network_errors', 1) # Update frequency in Hz.
+	interfacename = rospy.get_param('INTERFACE_NAME', 'wlan0')
+	print("Using ",interfacename,"as the interface")
+	updaterate = rospy.get_param('update_rate_network_errors', 1) # Update frequency in Hz.
 	pub = rospy.Publisher('network_analysis/network_errors', NetworkErrors, queue_size=10)
 	msg = NetworkErrors();
 	rate = rospy.Rate(updaterate) # 10hz
@@ -51,35 +52,48 @@ def network_errors_publisher():
 
 		#interface level (NIC statistics) errors
 		f = Popen(cmd6,shell=True,stdout=PIPE,stderr=PIPE)
-		msg.nic_tx_errors = int(f.stdout.read())
+		msg.nic_tx_errors = int(f.stdout.read().decode())
+
 		#rospy.loginfo("%s NIC TX ERRORS %d", interfacename, msg.nic_tx_errors)
 
 		f = Popen(cmd7,shell=True,stdout=PIPE,stderr=PIPE)
-		msg.nic_tx_dropped = int(f.stdout.read())
+		msg.nic_tx_dropped = int(f.stdout.read().decode())
 		#rospy.loginfo("%s NIC TX ERRORS %d", interfacename, msg.nic_tx_dropped)
 
 		f = Popen(cmd8,shell=True,stdout=PIPE,stderr=PIPE)
-		msg.nic_rx_errors = int(f.stdout.read())
+		msg.nic_rx_errors = int(f.stdout.read().decode())
 		#rospy.loginfo("%s NIC TX ERRORS %d", interfacename, msg.nic_rx_errors)
 
 		f = Popen(cmd9,shell=True,stdout=PIPE,stderr=PIPE)
-		msg.nic_rx_dropped = int(f.stdout.read())
+		msg.nic_rx_dropped = int(f.stdout.read().decode())
 		#rospy.loginfo("%s NIC TX ERRORS %d", interfacename, msg.nic_rx_dropped)
 
 		#system level (MAC layer) errors
 		f = Popen(cmd4,shell=True,stdout=PIPE,stderr=PIPE)
 		try: 
-			msg.rx_dropped = int(f.stdout.read())
+			ans = f.stdout.readline().decode()
+			if(ans != ''):
+				msg.rx_dropped = int(f.stdout.readline().decode())
 			#rospy.loginfo("%s IP RX_DROPPED %d", interfacename, msg.rx_dropped )
 		except:
-			rospy.loginfo("For ethtool, the specified interface %s does not exist or is disconnected. Reporting only global network errors (not interface specific).",interfacename)
+			rospy.loginfo("For ethtool, the specified interface", interfacename, " does not exist or is disconnected. Reporting only global network errors (not interface specific).")
 			pub.publish(msg)
 			rate.sleep()
 			continue
 			
 		f = Popen(cmd5,shell=True,stdout=PIPE,stderr=PIPE)
-		msg.tx_retires = int(f.stdout.read())
-		#rospy.loginfo("%s IP TX_RETRIES %d", interfacename, msg.tx_retires)
+		try: 
+			ans = f.stdout.readline().decode()
+			if(ans != ''):
+				msg.tx_retires = int(f.stdout.readline().decode())
+				#rospy.loginfo("%s IP TX_RETRIES %d", interfacename, msg.tx_retires)
+		except:
+			#rospy.loginfo("For ethtool, the specified interface", interfacename, " does not exist or is disconnected. Reporting only global network errors (not interface specific).")
+			pub.publish(msg)
+			rate.sleep()
+			continue
+			
+
 		
 		#rospy.loginfo(msg)
 		pub.publish(msg)
@@ -87,8 +101,8 @@ def network_errors_publisher():
 		rate.sleep()
         	
 if __name__ == '__main__':
-    try:
+	try:
 		network_errors_publisher()
 		rospy.spin()
-    except rospy.ROSInterruptException:
-        pass
+	except rospy.ROSInterruptException:
+		pass
