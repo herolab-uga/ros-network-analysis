@@ -5,7 +5,7 @@
 
 from subprocess import Popen, PIPE
 import rclpy
-from ros2_network_analysis.msg import NetworkErrors
+from ros2_network_analysis_interface.msg import NetworkErrors
 import std_msgs.msg
 import threading
 

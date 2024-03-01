@@ -5,7 +5,7 @@
 
 import rclpy
 from subprocess import Popen, PIPE
-from ros2_network_analysis.msg import LinkUtilization
+from ros2_network_analysis_interface.msg import LinkUtilization
 import std_msgs.msg
 import threading
 

@@ -18,22 +18,16 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(ros2_network_analysis_interface REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
-find_package(rosidl_default_generators REQUIRED)
+# find_package(rosidl_default_generators REQUIRED)
 find_package(rclpy REQUIRED)
 
-rosidl_generate_interfaces( ${PROJECT_NAME}
-  "msg/WirelessLink.msg"
-  "msg/LinkUtilization.msg"
-  "msg/NetworkErrors.msg"
-  "msg/NetworkDelay.msg"
-  "msg/NetworkAnalysis.msg"
-  "msg/WirelessLinkVector.msg"
-  "action/Ping.srv"
-  DEPENDENCIES builtin_interfaces std_msgs 
- )
+# rosidl_generate_interfaces( ${PROJECT_NAME}
+#   DEPENDENCIES builtin_interfaces std_msgs 
+#  )
 
 ament_export_dependencies(rosidl_default_runtime)
 
@@ -43,11 +37,11 @@ ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(network_ping_client src/ping_client.cpp)
 # add_dependencies(${target}${target_suffix} ${PROJECT_NAME})
-ament_target_dependencies(network_ping_client rclcpp std_msgs)
+ament_target_dependencies(network_ping_client rclcpp std_msgs ros2_network_analysis_interface)
 
 add_executable(network_ping_service src/ping_service.cpp)
 # add_dependencies(${target}${target_suffix} ${PROJECT_NAME})
-ament_target_dependencies(network_ping_service rclcpp std_msgs)
+ament_target_dependencies(network_ping_service rclcpp std_msgs ros2_network_analysis_interface)
 
 
 install(TARGETS
@@ -55,11 +49,11 @@ network_ping_client
 network_ping_service
 DESTINATION lib/${PROJECT_NAME})
 
-rosidl_target_interfaces(network_ping_client
-      ${PROJECT_NAME} "rosidl_typesupport_cpp")
+# rosidl_target_interfaces(network_ping_client
+#       ${PROJECT_NAME} "rosidl_typesupport_cpp")
     
-rosidl_target_interfaces(network_ping_service
-      ${PROJECT_NAME} "rosidl_typesupport_cpp")
+# rosidl_target_interfaces(network_ping_service
+#       ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 ament_python_install_package(${PROJECT_NAME})
 

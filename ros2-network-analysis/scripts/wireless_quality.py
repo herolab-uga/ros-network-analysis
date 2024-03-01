@@ -5,7 +5,7 @@
 
 import os
 import rclpy
-from ros2_network_analysis.msg import WirelessLink
+from ros2_network_analysis_interface.msg import WirelessLink
 import std_msgs.msg
 import threading
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     spin_thread = threading.Thread(
         target=rclpy.spin, args=(node, ), daemon=True)
     spin_thread.start()
-    interfacename = node.get_parameter_or('~INTERFACE_NAME', 'wlan0wlp0s20f3')
+    interfacename = node.get_parameter_or('~INTERFACE_NAME', 'wlp0s20f3')
     if type(interfacename) == "Parameter":
         interfacename = interfacename.value
     update_rate = node.get_parameter_or(
