@@ -25,9 +25,9 @@ def get_rssi_from_os(interface_name, node):
         cmd_output = f.read()
         ans = cmd_output.split()
 
-        msg.rssi = int(ans[3]) # there is a problem here when i use my interface (wlp0s20f3). Not sure what it is though
+        msg.rssi = int(float(ans[3])) # there is a problem here when i use my interface (wlp0s20f3). Not sure what it is though
         msg.lqi = float(ans[2])
-        msg.noise = float(ans[4])
+        msg.noise = int(ans[4])
         msg.iface = interface_name
         msg.status = True
 
