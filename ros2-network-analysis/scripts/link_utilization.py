@@ -5,7 +5,8 @@
 
 import rclpy
 from subprocess import Popen, PIPE
-from ros2_network_analysis.msg import LinkUtilization
+from ros2_network_analysis_interface.msg import LinkUtilization
+from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 import std_msgs.msg
 import threading
 
@@ -37,17 +38,29 @@ def getparameters():
 
 def linkutilization_publisher():
 	node = rclpy.create_node('link_utilization')
+	node.declare_parameter('interface_name',
+		value="wlan0",
+		descriptor=ParameterDescriptor(
+            type=ParameterType.PARAMETER_STRING, 
+            description="The Wi-Fi interface id (e.g. wlan0)",
+        ),
+	)
+	node.declare_parameter('update_rate_link_utilization',
+		value=1.0,
+		descriptor=ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE, 
+            description="Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation",
+        ),
+	)
 	spin_thread = threading.Thread(target=rclpy.spin, args=(node, ), daemon=True)
 	spin_thread.start()
-	interfacename = node.get_parameter_or('~INTERFACE_NAME', 'wlan0') # The Wi-Fi interface id wlan0
-	if type(interfacename) == "Parameter":
-		interfacename = interfacename.value
-	updaterate = node.get_parameter_or('~update_rate_link_utilization', 1) # Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation.
-	if type(updaterate) == "Parameter":
-		updaterate = updaterate.value
-		if updaterate <= 0:
-			node.get_logger().error("Update rate should be greater than 0. Setting to 10 hz")
-			updaterate = 10
+	interfacename = node.get_parameter("interface_name").get_parameter_value().string_value # The Wi-Fi interface id wlan0
+	node.get_logger().info(f"Wi-Fi Interface Name: {interfacename}")
+	updaterate = node.get_parameter("update_rate_link_utilization").get_parameter_value().double_value # Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation.
+	node.get_logger().info(f"Update Frequency: {updaterate} Hz")
+	if updaterate <= 0:
+		node.get_logger().error("Update rate should be greater than 0. Setting to 10 hz")
+		updaterate = 10
 	global cmd,cmd_netstat_tcp,cmd_netstat_udp,msg
 	cmd ="cat /proc/net/dev | grep " + interfacename
 	cmd_netstat_tcp = "cat /proc/net/snmp | grep Tcp:"
@@ -73,7 +86,7 @@ def linkutilization_publisher():
 		rate.sleep()
 		fout = getparameters()	
 		if (fout == 0):
-			print("The interface %s does not exist or is disconnected",interfacename)
+			print(f"The interface {interfacename} does not exist or is disconnected")
 			continue
 		msg.total_tx_mbps = (8 * (msg.total_tx_bytes - previous_total_tx_bytes) / float(1000*1000))
 		msg.total_rx_mbps = (8 * (msg.total_rx_bytes - previous_total_rx_bytes) / float(1000*1000))

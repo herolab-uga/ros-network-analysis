@@ -5,27 +5,38 @@
 
 from subprocess import Popen, PIPE
 import rclpy
-from ros2_network_analysis.msg import NetworkErrors
+from ros2_network_analysis_interface.msg import NetworkErrors
+from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 import std_msgs.msg
 import threading
 
 
 def network_errors_publisher():
     node = rclpy.create_node('NetworkErrors_publisher')
+    node.declare_parameter('interface_name',
+		value="wlan0",
+		descriptor=ParameterDescriptor(
+            type=ParameterType.PARAMETER_STRING, 
+            description="The Wi-Fi interface id (e.g. wlan0)",
+        ),
+	)
+    node.declare_parameter('update_rate_network_errors',
+		value=1.0,
+		descriptor=ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE, 
+            description="Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation",
+        ),
+	)
     spin_thread = threading.Thread(
         target=rclpy.spin, args=(node, ), daemon=True)
     spin_thread.start()
-    interfacename = node.get_parameter_or(
-        '~INTERFACE_NAME', 'wlan0')
-    if type(interfacename) == "Parameter":
-        interfacename = interfacename.value
-    # Update frequency in Hz.
-    updaterate = node.get_parameter_or('~update_rate_network_errors', 1)
-    if type(updaterate) == "Parameter":
-        updaterate = updaterate.value
-        if updaterate <= 0:
-            node.get_logger().error("Update rate should be greater than 0. Setting to 10 hz")
-            updaterate = 10
+    interfacename = node.get_parameter("interface_name").get_parameter_value().string_value # The Wi-Fi interface id wlan0
+    node.get_logger().info(f"Wi-Fi Interface Name: {interfacename}")
+    updaterate = node.get_parameter("update_rate_network_errors").get_parameter_value().double_value # Update frequency in Hz. Note: more than 1 Hz will not be effective in throughput calculation.
+    node.get_logger().info(f"Update Frequency: {updaterate} Hz")
+    if updaterate <= 0:
+        node.get_logger().error("Update rate should be greater than 0. Setting to 10 hz")
+        updaterate = 10
     pub = node.create_publisher(
         NetworkErrors, 'network_analysis/network_errors', 10)
     msg = NetworkErrors()

@@ -1,7 +1,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sys/time.h>
-#include <ros2_network_analysis/srv/ping.hpp>
-#include <ros2_network_analysis/msg/network_delay.hpp>
+#include <ros2_network_analysis_interface/srv/ping.hpp>
+#include <ros2_network_analysis_interface/msg/network_delay.hpp>
 #include <iostream>
 #include <chrono>
 #include <cstdlib>
@@ -30,10 +30,10 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    auto client = node->create_client<ros2_network_analysis::srv::Ping>("network_analysis/ping");
-    auto request = std::make_shared<ros2_network_analysis::srv::Ping::Request>();
-    ros2_network_analysis::msg::NetworkDelay msg;
-    auto delayPub = node->create_publisher<ros2_network_analysis::msg::NetworkDelay>("network_analysis/network_delay", 10);
+    auto client = node->create_client<ros2_network_analysis_interface::srv::Ping>("network_analysis/ping");
+    auto request = std::make_shared<ros2_network_analysis_interface::srv::Ping::Request>();
+    ros2_network_analysis_interface::msg::NetworkDelay msg;
+    auto delayPub = node->create_publisher<ros2_network_analysis_interface::msg::NetworkDelay>("network_analysis/network_delay", 10);
     request->inp = true;
     rclcpp::Rate rate(updateRate);
     while (!client->wait_for_service(std::chrono::seconds(1)))
