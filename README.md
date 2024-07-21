@@ -266,7 +266,7 @@ Heterogeneous Robotics Research Lab (HeRoLab) of the University of Georgia.
 
 Please contact hero at uga . edu for any queries
 
-http://hero.uga.edu/
+https://hero.uga.edu/
 
 <p align="center">
 <img src="https://herolab.org/wp-content/uploads/2021/04/herolab_newlogo_whitebg.png" width="300">
